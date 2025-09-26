@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import ProgramViewSet, EventViewSet, ReviewViewSet, TeacherViewSet, StudentViewSet, GradeViewSet, TestimonialsViewSet, FeedbackUserViewSet
+from .views import ProgramViewSet, EventViewSet, ReviewViewSet, TeacherViewSet, StudentViewSet, GradeViewSet, TestimonialsViewSet, FeedbackUserViewSet, UserViewSet, ProfileViewSet
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
@@ -11,6 +11,8 @@ router.register('grades', GradeViewSet, basename='grade')
 router.register('reviews', ReviewViewSet, basename='review')
 router.register('testimonials', TestimonialsViewSet, basename='testimonials')
 router.register('feedback-users', FeedbackUserViewSet, basename='feedbackuser')
+router.register('users', UserViewSet, basename='users')
+router.register('profiles', ProfileViewSet, basename='profiles')
 
 
 

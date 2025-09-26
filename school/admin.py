@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Program, Review, Teacher, Student, Event, Grade, Testimonials, FeedbackUser
+from .models import Program, Review, Teacher, Student, Event, Grade, Testimonials, FeedbackUser, Profile
 
 # Register your models here.
 
@@ -11,3 +11,4 @@ admin.site.register(Event)
 admin.site.register(Grade)
 admin.site.register(Testimonials)
 admin.site.register(FeedbackUser)
+admin.site.register(Profile)

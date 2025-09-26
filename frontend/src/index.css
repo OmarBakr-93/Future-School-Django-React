@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+* {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+nav ul li a {
+  font-size: 18px;
+}
+
+h3 {
+  position: relative;
+  font-size: 35px;
+  color: #C45B7D;
+  display: inline-block;
+}
+
+h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 80%;
+  height: 4px;
+  background-color: #e09db2;
+}
+
+button {
+  border-radius: 15px;
+  padding: 10px;
+  background: #C45B7D;
+  color: white;
+  font-size: 18px;
+}

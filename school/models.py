@@ -43,6 +43,7 @@ class Teacher(models.Model):
         return self.name
       
 class Student(models.Model):
+    profile = models.OneToOneField('Profile', on_delete=models.CASCADE,null=True, blank=True)
     name = models.CharField(max_length=150)
     subject = models.CharField(max_length=100)
     grade_level = models.CharField(max_length=50)
@@ -88,5 +89,19 @@ class Testimonials(models.Model):
 
     def __str__(self):
         return F"{self.client_name} - {self.rating} stars"
+      
+      
+class Profile(models.Model):
+    Role_choices = [
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+        ('admin', 'Admin'),
+        ('visitor', 'Visitor')
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=Role_choices, default='visitor')
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.role}" 
       
       

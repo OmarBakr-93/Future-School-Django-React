@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import Program, Event, Teacher, Student, Grade, Testimonials, FeedbackUser
-from .serializers import ProgramSerializer, EventSerializer, TeacherSerializer, StudentSerializer, GradeSerializer, TestimonialsSerializer, FeedbackUserSerializer
+from .models import Program, Event, Teacher, Student, Grade, Testimonials, FeedbackUser, Profile
+from .serializers import ProgramSerializer, EventSerializer, TeacherSerializer, StudentSerializer, GradeSerializer, TestimonialsSerializer, FeedbackUserSerializer, UserSerializer
 from rest_framework import viewsets, permissions
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -52,3 +53,19 @@ class ReviewViewSet(viewsets.ModelViewSet):
 class FeedbackUserViewSet(viewsets.ModelViewSet):
     queryset = FeedbackUser.objects.all()
     serializer_class = FeedbackUserSerializer
+    
+    
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Profile.objects.filter(user=user)
