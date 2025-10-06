@@ -34,16 +34,34 @@ class Event(models.Model):
       
 
 class Teacher(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=100)
     subject = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='teacher_images/', null=True, blank=True)
+    image = models.ImageField(upload_to="teachers/")
+    bio = models.TextField(blank=True, null=True)  
+    experience = models.PositiveIntegerField(default=0)  
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
       
+
+class Profile(models.Model):
+    ROLE_CHOICES = (
+        ("visitor", "Visitor"),
+        ("student", "Student"),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role =models.CharField(max_length=20, choices=ROLE_CHOICES, default="visitor")
+
+    def __str__(self):
+
+        return f"{self.user.username} - {self.role}" 
+      
+
 class Student(models.Model):
-    profile = models.OneToOneField('Profile', on_delete=models.CASCADE,null=True, blank=True)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE,null=True, blank=True)
     name = models.CharField(max_length=150)
     subject = models.CharField(max_length=100)
     grade_level = models.CharField(max_length=50)
@@ -51,15 +69,22 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
-      
-      
+
+
+class Subject(models.Model) :
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='grades')
+    subject = models.ForeignKey(Subject,  on_delete=models.CASCADE, related_name="grades", null=True, blank=True)
     marks = models.DecimalField(max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.student.user.username} - {self.marks}"
+        return f"{self.student.profile.user.username}  - {self.mark}"
       
 
 class FeedbackUser(models.Model):
@@ -74,12 +99,10 @@ class Review(models.Model):
     user = models.ForeignKey(FeedbackUser, on_delete=models.CASCADE)
     program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='reviews')
     comment = models.TextField(max_length=500)
-    rated_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.program.title}"
-      
+        return f"{self.user.name}  - {self.program.title}"
       
 class Testimonials(models.Model):
     user = models.ForeignKey(FeedbackUser, on_delete=models.CASCADE, null=True, blank=True)
@@ -88,20 +111,5 @@ class Testimonials(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return F"{self.client_name} - {self.rating} stars"
-      
-      
-class Profile(models.Model):
-    Role_choices = [
-        ('student', 'Student'),
-        ('teacher', 'Teacher'),
-        ('admin', 'Admin'),
-        ('visitor', 'Visitor')
-    ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=Role_choices, default='visitor')
-    
-    def __str__(self):
-        return f"{self.user.username} - {self.role}" 
-      
+        return f"{self.user.name} ({self.rating})"
       

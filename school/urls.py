@@ -1,5 +1,7 @@
 from django.urls import path, include
-from .views import ProgramViewSet, EventViewSet, ReviewViewSet, TeacherViewSet, StudentViewSet, GradeViewSet, TestimonialsViewSet, FeedbackUserViewSet, UserViewSet, ProfileViewSet
+
+from .views import ProgramViewSet,ProfileViewSet, SubjectViewSet, UserViewSet, EventViewSet, FeedbackUserViewSet, TeacherViewSet, TestimonialsViewSet, StudentViewSet, GradeViewSet, ReviewViewSet, SubjectViewSet
+
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
@@ -13,7 +15,7 @@ router.register('testimonials', TestimonialsViewSet, basename='testimonials')
 router.register('feedback-users', FeedbackUserViewSet, basename='feedbackuser')
 router.register('users', UserViewSet, basename='users')
 router.register('profiles', ProfileViewSet, basename='profiles')
-
+router.register("subjects",SubjectViewSet)
 
 
 urlpatterns = [
